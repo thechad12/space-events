@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-space-950 text-white;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  * {
+    @apply border-white/10;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/20 rounded-full;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .glass-sm {
+    @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl;
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 bg-nebula-purple hover:bg-violet-600 text-white font-medium rounded-lg
+           transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 font-medium rounded-lg
+           transition-all duration-200;
+  }
+
+  .input {
+    @apply w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white
+           placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-nebula-purple/50
+           focus:border-nebula-purple/50 transition-all;
+  }
+}
+
+/* FullCalendar dark theme overrides */
+.fc {
+  --fc-border-color: rgba(255,255,255,0.08);
+  --fc-button-bg-color: rgba(124,58,237,0.3);
+  --fc-button-border-color: transparent;
+  --fc-button-hover-bg-color: rgba(124,58,237,0.5);
+  --fc-button-hover-border-color: transparent;
+  --fc-button-active-bg-color: rgba(124,58,237,0.7);
+  --fc-button-text-color: #fff;
+  --fc-today-bg-color: rgba(124,58,237,0.08);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: transparent;
+  --fc-list-event-hover-bg-color: rgba(255,255,255,0.05);
+}
+
+.fc .fc-toolbar-title {
+  @apply text-white text-lg font-semibold;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  @apply text-white/60 text-sm no-underline hover:text-white;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  @apply text-nebula-purple font-bold;
+}
+
+.fc .fc-list-event-title a {
+  @apply text-white no-underline;
+}
+
+.fc .fc-list-day-cushion {
+  @apply bg-white/5 text-white/60 text-sm;
+}
+
+.fc-event {
+  @apply cursor-pointer border-0 rounded-md px-1 text-xs font-medium;
+}
