@@ -110,7 +110,7 @@ export default function Dashboard() {
               <div className="flex flex-col items-center justify-center h-full text-white/30">
                 <MapPin className="w-12 h-12 mb-4 opacity-30" />
                 <p className="text-lg font-medium">No location selected</p>
-                <p className="text-sm mt-1">Add a location to see cosmic events near you.</p>
+                <p className="text-sm mt-1">Add a location to see what's happening above you.</p>
                 <button
                   onClick={() => setShowLocMgr(true)}
                   className="btn-primary mt-6"

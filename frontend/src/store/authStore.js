@@ -11,6 +11,6 @@ export const useAuthStore = create(
       setUser: (user) => set({ user }),
       logout: () => set({ token: null, refreshToken: null, user: null }),
     }),
-    { name: 'cosmic-auth' }
+    { name: 'lookup-auth' }
   )
 )

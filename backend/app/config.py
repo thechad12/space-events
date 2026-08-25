@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: str = "http://localhost:3000,http://localhost:5173"
     VAPID_PRIVATE_KEY: str = ""
     VAPID_PUBLIC_KEY: str = ""
-    VAPID_CLAIM_EMAIL: str = "admin@cosmicevents.app"
+    VAPID_CLAIM_EMAIL: str = "admin@lookupapp.app"
     # Firebase — paste the service account JSON as a single-line string
     FIREBASE_CREDENTIALS_JSON: str = ""
 

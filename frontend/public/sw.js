@@ -10,7 +10,7 @@ self.addEventListener('push', (event) => {
   try {
     payload = event.data.json()
   } catch {
-    payload = { title: 'Cosmic Events', body: event.data.text() }
+    payload = { title: 'Look Up!', body: event.data.text() }
   }
 
   const options = {

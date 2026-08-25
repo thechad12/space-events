@@ -109,7 +109,7 @@ export default function NotificationPanel({ onClose }) {
 
           {status === 'subscribed' && (
             <>
-              <StatusBanner icon={<Check />} color="emerald" text="You're subscribed. We'll notify you when cosmic events are visible from your saved locations." />
+              <StatusBanner icon={<Check />} color="emerald" text="You're subscribed. We'll notify you when events are visible from your saved locations." />
               {message && <p className="text-xs text-white/50">{message}</p>}
               <button onClick={handleDisable} className="w-full py-2 glass-sm border border-red-400/20 text-red-400 text-sm rounded-lg hover:bg-red-400/10 transition-colors flex items-center justify-center gap-2">
                 <BellOff className="w-4 h-4" /> Disable notifications

@@ -78,7 +78,7 @@ async def geocode_search(q: str):
         resp = await client.get(
             "https://nominatim.openstreetmap.org/search",
             params={"q": q, "format": "json", "limit": 5, "addressdetails": 0},
-            headers={"User-Agent": "CosmicEvents/1.0"},
+            headers={"User-Agent": "LookUp/1.0"},
             timeout=10,
         )
 

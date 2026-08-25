@@ -45,7 +45,7 @@ def send_fcm(token: str, payload: dict) -> bool:
 
         msg = messaging.Message(
             notification=messaging.Notification(
-                title=payload.get("title", "Cosmic Events"),
+                title=payload.get("title", "Look Up!"),
                 body=payload.get("body", ""),
             ),
             data={k: str(v) for k, v in (payload.get("data") or {}).items()},

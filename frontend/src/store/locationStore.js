@@ -22,6 +22,6 @@ export const useLocationStore = create(
         return locations.find((l) => l.id === activeLocationId) ?? locations[0] ?? null
       },
     }),
-    { name: 'cosmic-locations' }
+    { name: 'lookup-locations' }
   )
 )

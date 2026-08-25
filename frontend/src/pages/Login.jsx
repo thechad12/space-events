@@ -38,7 +38,7 @@ export default function Login() {
             <Telescope className="w-7 h-7 text-nebula-purple" />
           </div>
           <h1 className="text-2xl font-bold">Welcome back</h1>
-          <p className="text-white/50 text-sm mt-1">Sign in to track cosmic events</p>
+          <p className="text-white/50 text-sm mt-1">Sign in to track what's happening above</p>
         </div>
 
         <form onSubmit={handleSubmit} className="glass p-6 space-y-4">

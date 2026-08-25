@@ -1,7 +1,7 @@
 /** @type {import('@capacitor/cli').CapacitorConfig} */
 const config = {
-  appId: 'com.cosmicevents.app',
-  appName: 'Cosmic Events',
+  appId: 'com.lookupapp.app',
+  appName: 'Look Up!',
   webDir: 'dist',
   server: {
     // In production the app uses the bundled build.

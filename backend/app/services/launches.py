@@ -193,7 +193,7 @@ async def get_launch_events(user_lat: float, user_lng: float, start: date, end: 
                 resp = await client.get(
                     SPACE_DEVS_URL,
                     params={"limit": 50, "format": "json"},
-                    headers={"User-Agent": "CosmicEvents/1.0"},
+                    headers={"User-Agent": "LookUp/1.0"},
                 )
             if resp.status_code != 200:
                 return []

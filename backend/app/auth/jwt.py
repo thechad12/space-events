@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import Optional
+import hashlib, base64
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from ..config import settings
@@ -7,12 +8,19 @@ from ..config import settings
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+def _prepare(password: str) -> str:
+    # SHA-256 pre-hash keeps input under bcrypt's 72-byte limit while
+    # still supporting arbitrarily long passwords.
+    digest = hashlib.sha256(password.encode()).digest()
+    return base64.b64encode(digest).decode()
+
+
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    return pwd_context.hash(_prepare(password))
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    return pwd_context.verify(_prepare(plain), hashed)
 
 
 def create_access_token(subject: int) -> str:

@@ -1,6 +1,6 @@
 {
-  "name": "Cosmic Events",
-  "short_name": "Cosmic",
+  "name": "Look Up!",
+  "short_name": "Look Up",
   "description": "Track rocket launches, auroras, eclipses, and meteor showers by location.",
   "start_url": "/",
   "display": "standalone",

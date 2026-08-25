@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     stop_scheduler()
 
 
-app = FastAPI(title="Cosmic Events API", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="Look Up! API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

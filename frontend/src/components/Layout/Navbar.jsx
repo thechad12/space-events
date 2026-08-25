@@ -30,7 +30,7 @@ export default function Navbar({ onAddLocation }) {
             <Telescope className="w-4 h-4 text-nebula-purple" />
           </div>
           <span className="text-lg font-semibold tracking-tight">
-            Cosmic <span className="text-nebula-purple">Events</span>
+            Look <span className="text-nebula-purple">Up!</span>
           </span>
         </Link>
 
