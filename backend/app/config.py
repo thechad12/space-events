@@ -11,6 +11,11 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     NASA_API_KEY: str = "DEMO_KEY"
     CORS_ORIGINS: str = "http://localhost:3000,http://localhost:5173"
+    VAPID_PRIVATE_KEY: str = ""
+    VAPID_PUBLIC_KEY: str = ""
+    VAPID_CLAIM_EMAIL: str = "admin@cosmicevents.app"
+    # Firebase — paste the service account JSON as a single-line string
+    FIREBASE_CREDENTIALS_JSON: str = ""
 
     @property
     def cors_origins_list(self) -> List[str]:

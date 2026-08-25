@@ -6,6 +6,7 @@ import { Loader2, SatelliteDish } from 'lucide-react'
 
 const FILTERS = [
   { key: 'all', label: 'All' },
+  { key: 'rocket_launch', label: 'Launches 🚀' },
   { key: 'meteor_shower', label: 'Meteors' },
   { key: 'lunar_eclipse', label: 'Lunar' },
   { key: 'solar_eclipse', label: 'Solar' },

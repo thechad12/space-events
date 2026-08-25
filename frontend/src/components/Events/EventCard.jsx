@@ -1,8 +1,16 @@
 import { format, parseISO } from 'date-fns'
-import { Zap, Moon, Sun, Wind, Globe, Telescope, Star } from 'lucide-react'
+import { Zap, Moon, Sun, Wind, Globe, Telescope, Star, Rocket } from 'lucide-react'
 import clsx from 'clsx'
 
 const TYPE_CONFIG = {
+  rocket_launch: {
+    icon: Rocket,
+    color: 'text-sky-400',
+    bg: 'bg-sky-400/10',
+    border: 'border-sky-400/20',
+    dot: 'bg-sky-400',
+    label: 'Rocket Launch',
+  },
   meteor_shower: {
     icon: Star,
     color: 'text-amber-400',
@@ -90,7 +98,8 @@ export default function EventCard({ event, onClick }) {
             </div>
             <div className="text-right shrink-0">
               <p className="text-xs text-white/40">{format(startDate, 'MMM d')}</p>
-              {peakDate && (
+              <p className="text-xs text-white/30">{format(startDate, 'h:mm a')}</p>
+              {peakDate && event.type !== 'rocket_launch' && (
                 <p className="text-xs text-white/30">Peak {format(peakDate, 'MMM d')}</p>
               )}
             </div>
@@ -109,6 +118,12 @@ export default function EventCard({ event, onClick }) {
             )}
             {event.details?.magnitude !== undefined && (
               <span className="text-xs text-white/30">mag {event.details.magnitude}</span>
+            )}
+            {event.details?.distance_km !== undefined && (
+              <span className="text-xs text-white/30">{event.details.distance_km} km away</span>
+            )}
+            {event.details?.trajectory_corridor && (
+              <span className="text-xs text-sky-400/60">in trajectory corridor</span>
             )}
           </div>
         </div>

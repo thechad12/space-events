@@ -11,6 +11,7 @@ class EventType(str, Enum):
     AURORA = "aurora"
     PLANETARY = "planetary"
     COMET = "comet"
+    ROCKET_LAUNCH = "rocket_launch"
 
 
 class VisibilityInfo(BaseModel):
