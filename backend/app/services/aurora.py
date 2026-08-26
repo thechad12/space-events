@@ -48,20 +48,18 @@ async def get_aurora_events(lat: float, lng: float) -> List[dict]:
     except Exception:
         return []
 
-    # Skip header row
-    rows = raw[1:] if raw and len(raw[0]) == 3 and raw[0][0] == "time_tag" else raw
-
     min_kp = _min_kp_for_latitude(lat)
     events = []
     aurora_windows = []
     current_window = None
 
-    for row in rows:
+    for row in raw:
         try:
-            time_str, kp_str, _ = row[0], row[1], row[2]
+            # API returns dicts: {time_tag, kp, observed, noaa_scale}
+            time_str = row["time_tag"] if isinstance(row, dict) else row[0]
+            kp = float(row["kp"] if isinstance(row, dict) else row[1])
             dt = datetime.fromisoformat(time_str.replace(" ", "T")).replace(tzinfo=timezone.utc)
-            kp = float(kp_str)
-        except (ValueError, IndexError):
+        except (ValueError, KeyError, IndexError, TypeError):
             continue
 
         if kp >= min_kp:
