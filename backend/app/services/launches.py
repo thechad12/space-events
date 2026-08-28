@@ -174,6 +174,8 @@ def _parse_launch(raw: dict, user_lat: float, user_lng: float) -> Optional[dict]
                 "status": status_name,
                 "distance_km": dist_km,
                 "trajectory_corridor": in_corridor,
+                "launch_site_lat": launch_lat,
+                "launch_site_lng": launch_lng,
                 "window_start": raw.get("window_start"),
                 "window_end": raw.get("window_end"),
             },

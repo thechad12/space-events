@@ -9,8 +9,9 @@ import StarField from '../components/Layout/StarField'
 import Navbar from '../components/Layout/Navbar'
 import EventList from '../components/Events/EventList'
 import CosmicCalendar from '../components/Calendar/CosmicCalendar'
+import SkyMap from '../components/Map/SkyMap'
 import LocationManager from '../components/Location/LocationManager'
-import { LayoutList, CalendarDays, MapPin } from 'lucide-react'
+import { LayoutList, CalendarDays, MapPin, Telescope } from 'lucide-react'
 
 export default function Dashboard() {
   const [view, setView] = useState('list')
@@ -101,6 +102,15 @@ export default function Dashboard() {
                 <CalendarDays className="w-3.5 h-3.5" />
                 Calendar
               </button>
+              <button
+                onClick={() => setView('sky')}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                  view === 'sky' ? 'bg-nebula-purple text-white' : 'text-white/50 hover:text-white'
+                }`}
+              >
+                <Telescope className="w-3.5 h-3.5" />
+                Sky
+              </button>
             </div>
           </div>
 
@@ -124,8 +134,14 @@ export default function Dashboard() {
                 loading={eventsQuery.isLoading}
                 error={eventsQuery.isError}
               />
-            ) : (
+            ) : view === 'calendar' ? (
               <CosmicCalendar events={events} />
+            ) : (
+              <SkyMap
+                events={events}
+                userLat={activeLoc.lat}
+                userLng={activeLoc.lng}
+              />
             )}
           </div>
         </main>

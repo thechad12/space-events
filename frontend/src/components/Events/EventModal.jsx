@@ -34,7 +34,7 @@ const DETAIL_LABELS = {
 // Keys to exclude from the Details grid
 const HIDDEN_DETAIL_KEYS = new Set([
   'source', 'hemisphere', 'trajectory_corridor', 'window_start', 'window_end',
-  'viewing_tip', // shown separately in Observe section
+  'viewing_tip', 'launch_site_lat', 'launch_site_lng',
 ])
 
 function DetailValue({ k, v }) {
