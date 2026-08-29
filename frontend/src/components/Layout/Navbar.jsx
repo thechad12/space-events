@@ -3,6 +3,7 @@ import { LogOut, Telescope, MapPin, ChevronDown } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAuthStore } from '../../store/authStore'
 import { useLocationStore } from '../../store/locationStore'
+import { useTenantStore } from '../../store/tenantStore'
 import { NotificationBell } from '../Notifications/NotificationPanel'
 import NotificationPanel from '../Notifications/NotificationPanel'
 import { getCurrentSubscription, getPermissionStatus } from '../../services/notifications'
@@ -11,6 +12,7 @@ export default function Navbar({ onAddLocation }) {
   const logout = useAuthStore((s) => s.logout)
   const user = useAuthStore((s) => s.user)
   const { locations, activeLocationId, setActiveLocation } = useLocationStore()
+  const tenant = useTenantStore((s) => s.tenant)
   const [open, setOpen] = useState(false)
   const [showNotifPanel, setShowNotifPanel] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
@@ -26,12 +28,21 @@ export default function Navbar({ onAddLocation }) {
     <>
       <nav className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-white/10 glass-sm rounded-none">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-nebula-purple/30 flex items-center justify-center">
-            <Telescope className="w-4 h-4 text-nebula-purple" />
-          </div>
-          <span className="text-lg font-semibold tracking-tight">
-            Look <span className="text-nebula-purple">Up!</span>
-          </span>
+          {tenant.logo_url ? (
+            <img src={tenant.logo_url} alt={tenant.brand_name} className="h-8 w-auto max-w-[120px] object-contain" />
+          ) : (
+            <>
+              <div className="w-8 h-8 rounded-full bg-nebula-purple/30 flex items-center justify-center">
+                <Telescope className="w-4 h-4 text-nebula-purple" />
+              </div>
+              <span className="text-lg font-semibold tracking-tight">
+                {tenant.is_white_label
+                  ? <span style={{ color: tenant.primary_color }}>{tenant.brand_name}</span>
+                  : <>Look <span className="text-nebula-purple">Up!</span></>
+                }
+              </span>
+            </>
+          )}
         </Link>
 
         <div className="flex items-center gap-2">

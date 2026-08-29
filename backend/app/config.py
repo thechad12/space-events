@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     VAPID_CLAIM_EMAIL: str = "admin@lookupapp.app"
     # Firebase — paste the service account JSON as a single-line string
     FIREBASE_CREDENTIALS_JSON: str = ""
+    # White-label admin — set a long random string; required to use /api/admin/* endpoints
+    ADMIN_KEY: str = ""
 
     @property
     def cors_origins_list(self) -> List[str]:

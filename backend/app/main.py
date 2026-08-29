@@ -3,8 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
 from .database import Base, engine
-from .models import User, UserLocation, PushSubscription, FcmToken, BookmarkedEvent, SeenEvent, NotificationHistory
-from .api import auth, locations, events, notifications, bookmarks, seen
+from .models import User, UserLocation, PushSubscription, FcmToken, BookmarkedEvent, SeenEvent, NotificationHistory, Tenant
+from .api import auth, locations, events, notifications, bookmarks, seen, tenant, admin
 from .api import mobile
 from .scheduler import start_scheduler, stop_scheduler
 
@@ -35,6 +35,8 @@ app.include_router(notifications.router, prefix="/api")
 app.include_router(mobile.router, prefix="/api")
 app.include_router(bookmarks.router, prefix="/api")
 app.include_router(seen.router, prefix="/api")
+app.include_router(tenant.router, prefix="/api")
+app.include_router(admin.router, prefix="/api")
 
 
 @app.get("/health")
