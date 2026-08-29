@@ -1,5 +1,7 @@
 import { format, parseISO } from 'date-fns'
-import { Zap, Moon, Sun, Wind, Globe, Telescope, Star, Rocket } from 'lucide-react'
+import { Zap, Moon, Sun, Wind, Globe, Telescope, Star, Rocket, Bookmark, BookmarkCheck } from 'lucide-react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { bookmarksApi } from '../../api/bookmarks'
 import clsx from 'clsx'
 
 const TYPE_CONFIG = {
@@ -68,11 +70,28 @@ const QUALITY_COLORS = {
   poor: 'text-red-400/70',
 }
 
-export default function EventCard({ event, onClick }) {
+export default function EventCard({ event, onClick, bookmarkedIds = new Set(), seenIds = new Set() }) {
   const cfg = TYPE_CONFIG[event.type] ?? TYPE_CONFIG.planetary
   const Icon = cfg.icon
   const startDate = parseISO(event.start_date)
   const peakDate = event.peak_date ? parseISO(event.peak_date) : null
+  const isBookmarked = bookmarkedIds.has(event.id)
+  const isSeen = seenIds.has(event.id)
+
+  const qc = useQueryClient()
+  const addBm = useMutation({
+    mutationFn: () => bookmarksApi.add(event),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['bookmarks'] }),
+  })
+  const removeBm = useMutation({
+    mutationFn: () => bookmarksApi.remove(event.id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['bookmarks'] }),
+  })
+
+  const toggleBookmark = (e) => {
+    e.stopPropagation()
+    isBookmarked ? removeBm.mutate() : addBm.mutate()
+  }
 
   return (
     <button
@@ -80,7 +99,8 @@ export default function EventCard({ event, onClick }) {
       className={clsx(
         'w-full text-left glass-sm border hover:bg-white/8 transition-all duration-200 p-4 group hover:scale-[1.01]',
         cfg.border,
-        !event.visibility.visible && 'opacity-60'
+        !event.visibility.visible && 'opacity-60',
+        isSeen && 'opacity-70'
       )}
     >
       <div className="flex items-start gap-3">
@@ -96,12 +116,28 @@ export default function EventCard({ event, onClick }) {
                 {event.name}
               </h3>
             </div>
-            <div className="text-right shrink-0">
-              <p className="text-xs text-white/40">{format(startDate, 'MMM d')}</p>
-              <p className="text-xs text-white/30">{format(startDate, 'h:mm a')}</p>
-              {peakDate && event.type !== 'rocket_launch' && (
-                <p className="text-xs text-white/30">Peak {format(peakDate, 'MMM d')}</p>
-              )}
+            <div className="flex items-start gap-2 shrink-0">
+              <div className="text-right">
+                <p className="text-xs text-white/40">{format(startDate, 'MMM d')}</p>
+                <p className="text-xs text-white/30">{format(startDate, 'h:mm a')}</p>
+                {peakDate && event.type !== 'rocket_launch' && (
+                  <p className="text-xs text-white/30">Peak {format(peakDate, 'MMM d')}</p>
+                )}
+              </div>
+              <button
+                onClick={toggleBookmark}
+                className={clsx(
+                  'p-1 rounded-md transition-colors',
+                  isBookmarked
+                    ? 'text-nebula-purple hover:text-violet-300'
+                    : 'text-white/20 hover:text-white/50'
+                )}
+                title={isBookmarked ? 'Remove bookmark' : 'Bookmark'}
+              >
+                {isBookmarked
+                  ? <BookmarkCheck className="w-3.5 h-3.5" />
+                  : <Bookmark className="w-3.5 h-3.5" />}
+              </button>
             </div>
           </div>
 

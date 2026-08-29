@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { isAfter, parseISO, startOfToday } from 'date-fns'
 import EventCard from './EventCard'
 import EventModal from './EventModal'
-import { Loader2, SatelliteDish } from 'lucide-react'
+import { Loader2, SatelliteDish, Bookmark } from 'lucide-react'
 
 const FILTERS = [
   { key: 'all', label: 'All' },
+  { key: 'bookmarked', label: 'Bookmarked' },
   { key: 'rocket_launch', label: 'Launches 🚀' },
   { key: 'meteor_shower', label: 'Meteors' },
   { key: 'lunar_eclipse', label: 'Lunar' },
@@ -14,7 +15,7 @@ const FILTERS = [
   { key: 'planetary', label: 'Planets' },
 ]
 
-export default function EventList({ events = [], loading, error }) {
+export default function EventList({ events = [], loading, error, bookmarkedIds = new Set(), seenIds = new Set() }) {
   const [selected, setSelected] = useState(null)
   const [filter, setFilter] = useState('all')
   const [showPast, setShowPast] = useState(false)
@@ -22,7 +23,10 @@ export default function EventList({ events = [], loading, error }) {
   const today = startOfToday()
 
   const visible = events
-    .filter((e) => filter === 'all' || e.type === filter)
+    .filter((e) => {
+      if (filter === 'bookmarked') return bookmarkedIds.has(e.id)
+      return filter === 'all' || e.type === filter
+    })
     .filter((e) => showPast || !isAfter(today, parseISO(e.start_date)) || (e.end_date && isAfter(parseISO(e.end_date), today)))
 
   return (
@@ -75,7 +79,13 @@ export default function EventList({ events = [], loading, error }) {
         )}
 
         {visible.map((event) => (
-          <EventCard key={event.id} event={event} onClick={setSelected} />
+          <EventCard
+            key={event.id}
+            event={event}
+            onClick={setSelected}
+            bookmarkedIds={bookmarkedIds}
+            seenIds={seenIds}
+          />
         ))}
       </div>
 

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { eventsApi } from '../api/events'
 import { locationsApi } from '../api/locations'
 import { authApi } from '../api/auth'
+import { bookmarksApi, seenApi } from '../api/bookmarks'
 import { useAuthStore } from '../store/authStore'
 import { useLocationStore } from '../store/locationStore'
 import StarField from '../components/Layout/StarField'
@@ -51,6 +52,26 @@ export default function Dashboard() {
   })
 
   const events = eventsQuery.data?.events ?? []
+
+  const bookmarksQuery = useQuery({
+    queryKey: ['bookmarks'],
+    queryFn: bookmarksApi.list,
+    staleTime: 5 * 60 * 1000,
+  })
+  const seenQuery = useQuery({
+    queryKey: ['seen'],
+    queryFn: seenApi.list,
+    staleTime: 5 * 60 * 1000,
+  })
+
+  const bookmarkedIds = useMemo(
+    () => new Set((bookmarksQuery.data ?? []).map((b) => b.event_id)),
+    [bookmarksQuery.data]
+  )
+  const seenIds = useMemo(
+    () => new Set(seenQuery.data ?? []),
+    [seenQuery.data]
+  )
 
   return (
     <div className="min-h-screen bg-space-gradient relative">
@@ -133,6 +154,8 @@ export default function Dashboard() {
                 events={events}
                 loading={eventsQuery.isLoading}
                 error={eventsQuery.isError}
+                bookmarkedIds={bookmarkedIds}
+                seenIds={seenIds}
               />
             ) : view === 'calendar' ? (
               <CosmicCalendar events={events} />
