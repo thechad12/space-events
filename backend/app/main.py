@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
 from .database import Base, engine
-from .models import User, UserLocation, PushSubscription, FcmToken, BookmarkedEvent, SeenEvent, NotificationHistory, Tenant
+from .models import User, UserLocation, PushSubscription, FcmToken, BookmarkedEvent, SeenEvent, NotificationHistory, Tenant, Eclipse
 from .api import auth, locations, events, notifications, bookmarks, seen, tenant, admin
 from .api import mobile
 from .scheduler import start_scheduler, stop_scheduler
