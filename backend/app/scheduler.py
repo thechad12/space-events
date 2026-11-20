@@ -15,6 +15,7 @@ from .models.push_subscription import PushSubscription
 from .models.fcm_token import FcmToken
 from .models.location import UserLocation
 from .services.astronomy import get_events_for_location
+from .services.launch_ingest import run_launch_ingest
 from .notifications.push import send_push, build_event_payload
 from .notifications.fcm import send_fcm
 
@@ -22,6 +23,9 @@ logger = logging.getLogger(__name__)
 scheduler = AsyncIOScheduler()
 
 NOTIFY_HOURS_BEFORE = 24  # default for FCM tokens (no per-token preference yet)
+# 2 LL2 requests per run -> 6/hour, leaving room under LL2's 15/hour free tier
+# for the 30-minute raw cache refresh in services/launches.py.
+LAUNCH_INGEST_MINUTES = 20
 
 
 async def _events_for_user_locations(user_id: int, db: Session, hours_window: int):
@@ -94,8 +98,18 @@ def start_scheduler():
         id="push_notifications",
         replace_existing=True,
     )
+    scheduler.add_job(
+        run_launch_ingest,
+        trigger="interval",
+        minutes=LAUNCH_INGEST_MINUTES,
+        id="launch_ingest",
+        replace_existing=True,
+        max_instances=1,
+        coalesce=True,
+        next_run_time=datetime.now(timezone.utc),  # also run once at startup
+    )
     scheduler.start()
-    logger.info("Notification scheduler started")
+    logger.info("Scheduler started (notifications, launch ingest)")
 
 
 def stop_scheduler():

@@ -7,9 +7,11 @@ from .seen_event import SeenEvent
 from .notification_history import NotificationHistory
 from .tenant import Tenant
 from .eclipse import Eclipse
+from .event import Event
+from .event_actual import EventFact
 
 __all__ = [
     "User", "UserLocation", "PushSubscription", "FcmToken",
     "BookmarkedEvent", "SeenEvent", "NotificationHistory",
-    "Tenant", "Eclipse",
+    "Tenant", "Eclipse", "Event", "EventFact",
 ]
